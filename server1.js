@@ -1,20 +1,19 @@
 
 // this represents the server listening for the incoming HTTP IoT data from sensor,
-// then it emits that message to server2.js
+// then it sends that message to server2.js over http
 // From https://stackoverflow.com/a/35427353/5794417
-// Shows two server apps talking to each other over socket.io-client
+// do the following to simulate an incoming message:
+// curl localhost:8001/r
 
-//client.js
 const request = require('request');
 
-var io = require('socket.io-client');
-var socket = io.connect('http://localhost:3000', {reconnect: true});
+//var io = require('socket.io-client');
+//var socket = io.connect('http://localhost:3000', {reconnect: true});
 
-// Add a connect listener
-socket.on('connect', function (socket) {
-    console.log('Connected!');
-});
-socket.emit('CH01', 'me', 'test msg');
+// socket.on('connect', function (socket) {
+//     console.log('Connected!');
+// });
+// socket.emit('CH01', 'me', 'test msg');
 
 var http = require('http');
 var url = require('url');
@@ -30,11 +29,15 @@ var sendit = function() {
 server = http.createServer(function(req, res){
     var path = url.parse(req.url).pathname;
     switch (path){
+
+        // this is just a hello route for testing
         case '/':
             res.writeHead(200, {'Content-Type': 'text/html'});
-            res.write('<h1>Hello! Try the <a href="/test.html">Test page</a></h1>');
+            res.write('<h1>Hello!</h1>');
             res.end();
             break;
+
+        // this path accepts incoming http get with IoT message
         case '/r':
           sendit();
           res.write('thanks 1 \n\n');

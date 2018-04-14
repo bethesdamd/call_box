@@ -9,24 +9,13 @@
     <script>
       var socket = io.connect();
 
-      socket.on('date', function(data){
-        $('#date').text(data.date);
-      });
-
       socket.on('got_iot_message', function(data){
         console.log(data);
         $('#iot').text(data);
       });
 
 
-      $(document).ready(function(){
-        $('#text').keypress(function(e){
-          socket.emit('client_data', {'letter': String.fromCharCode(e.charCode)});
-        });
-      });
     </script>
-    <div id="date"></div>
-    <textarea id="text"></textarea><p/>
     iot: <div id="iot"></div>
   </body>
 </html>
