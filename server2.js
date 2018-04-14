@@ -8,8 +8,10 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+
 var http2 = require('http');
 var url = require('url');
+var fs = require('fs');
 
 io.on('connection', function (socket){
    console.log('connection');
@@ -21,7 +23,7 @@ io.on('connection', function (socket){
 });
 
 http.listen(3000, function () {
-  console.log('listening on *:3000');
+  console.log('socket.io listening on *:3000');
 });
 
 
