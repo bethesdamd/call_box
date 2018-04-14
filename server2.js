@@ -8,16 +8,24 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var port = process.env.PORT || 3000;
 
-var http2 = require('http');
+// TODO: <script src="/socket.io/socket.io.js"></script> in html file is not loading
+// Probably the fact that i'm instantiating two servers, i've got something wrong in my syntax?
+// See this about wrapping: "you wrap your HTTP server in Socket.IO"
+// the normal node server does not need this wrapping, but the socket.io server does.  how do I make
+// that work?
+
 var url = require('url');
 var fs = require('fs');
 
+// connection to other server
 io.on('connection', function (socket){
    console.log('connection');
 
   socket.on('CH01', function (from, msg) {
     console.log('MSG', from, ' saying ', msg);
+    // socket.emit('got_iot_message');
   });
 
 });
@@ -26,31 +34,28 @@ http.listen(3000, function () {
   console.log('socket.io listening on *:3000');
 });
 
+app.get('/', function(req, res){
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.write('<h1>Hello! Try the <a href="/test.html">Test page</a></h1>');
+    res.end();
+});
 
-server = http2.createServer(function(req, res){
-    // your normal server code
-    var path = url.parse(req.url).pathname;
-    switch (path){
-        case '/':
-            res.writeHead(200, {'Content-Type': 'text/html'});
-            res.write('<h1>Hello! Try the <a href="/test.html">Test page</a></h1>');
-            res.end();
-            break;
+// get message from sister server
+app.get('/rh', function(req, res){
+  io.emit('got_iot_message', '123');
+  console.log('gotcha');
+});
 
-          case '/test.html':
-              fs.readFile(__dirname + path, function(err, data){
-                  if (err){
-                      return send404(res);
-                  }
-                  res.writeHead(200, {'Content-Type': path == 'json.js' ? 'text/javascript' : 'text/html'});
-                  res.write(data + '\n', 'utf8');
-                  res.end();
-              });
-
-
-        break;
-        default: send404(res);
-    }
+app.get('/my_new.html', function(req, res) {
+  console.log('hi');
+      fs.readFile('my_new.html', function(err, data){
+          if (err){
+              return send404(res);
+          }
+          res.writeHead(200, {'Content-Type': 'text/html'});
+          res.write(data + '\n', 'utf8');
+          res.end();
+      });
 });
 
 send404 = function(res){
@@ -58,6 +63,3 @@ send404 = function(res){
     res.write('404');
     res.end();
 };
-
-server.listen(8002);
-console.log("web server listening on 8002")

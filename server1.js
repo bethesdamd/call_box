@@ -5,6 +5,8 @@
 // Shows two server apps talking to each other over socket.io-client
 
 //client.js
+const request = require('request');
+
 var io = require('socket.io-client');
 var socket = io.connect('http://localhost:3000', {reconnect: true});
 
@@ -19,8 +21,13 @@ var url = require('url');
 var fs = require('fs');
 var server;
 
+var sendit = function() {
+  request('http://localhost:3000/rh', { json: false }, (err, res, body) => {
+  if (err) { return console.log(err); }
+  });
+}
+
 server = http.createServer(function(req, res){
-    // your normal server code
     var path = url.parse(req.url).pathname;
     switch (path){
         case '/':
@@ -29,7 +36,8 @@ server = http.createServer(function(req, res){
             res.end();
             break;
         case '/r':
-          res.write('thanks');
+          sendit();
+          res.write('thanks 1 \n\n');
           res.end();
 
         break;
@@ -44,4 +52,4 @@ send404 = function(res){
 };
 
 server.listen(8001);
-console.log("web server listening on 8001")
+console.log("web server listening on 8001 for incoming http get with data")
