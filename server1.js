@@ -7,27 +7,22 @@
 
 const request = require('request');
 
-//var io = require('socket.io-client');
-//var socket = io.connect('http://localhost:3000', {reconnect: true});
-
-// socket.on('connect', function (socket) {
-//     console.log('Connected!');
-// });
-// socket.emit('CH01', 'me', 'test msg');
-
 var http = require('http');
 var url = require('url');
 var fs = require('fs');
 var server;
 
-var sendit = function() {
-  request('http://localhost:3000/rh', { json: false }, (err, res, body) => {
+// send data to the other server
+var sendit = function(s) {
+  request('http://localhost:3000/rh' + '?' + s, { }, (err, res, body) => {
   if (err) { return console.log(err); }
   });
 }
 
 server = http.createServer(function(req, res){
     var path = url.parse(req.url).pathname;
+    console.log(req.method);
+
     switch (path){
 
         // this is just a hello route for testing
@@ -38,8 +33,10 @@ server = http.createServer(function(req, res){
             break;
 
         // this path accepts incoming http get with IoT message
+        // e.g. curl localhost:8001/r
         case '/r':
-          sendit();
+          console.log('url: ' + req.url);
+          sendit(req.url);
           res.write('thanks 1 \n\n');
           res.end();
 

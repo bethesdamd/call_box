@@ -42,7 +42,7 @@ app.get('/', function(req, res){
 
 // get message from sister server
 app.get('/rh', function(req, res){
-  io.emit('got_iot_message', '123');
+  io.emit('got_iot_message', 'abc');
   console.log('gotcha');
 });
 
