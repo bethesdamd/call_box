@@ -8,11 +8,11 @@
   </head>
   <body>
     <script>
-      // var socket = io.connect();
+      // old way:  var socket = io.connect();
       socket = io.connect( '', {
           reconnection: true,
-          reconnectionDelay: 1000,
-          reconnectionDelayMax : 5000,
+          reconnectionDelay: 5000,
+          reconnectionDelayMax : 10000,
           reconnectionAttempts: 99999
         } );
 
