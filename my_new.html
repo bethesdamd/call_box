@@ -10,7 +10,6 @@
     <title>Socket.io Test</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
   </head>
   <body>
     <script>
@@ -23,13 +22,30 @@
         } );
 
       socket.on('got_iot_message', function(data){
-        console.log(data);
+        var date = new Date(Date.now());
+        fd = date.toString();
+        console.log(fd + ": " + data);
         $('#iot').text(data);
         $('#iot').css('background', '#CC55AA');
       });
 
+      socket.on('connection', function(socket){
+        console.log('connection');
+      });
+
+      socket.on('disconnect', function(socket){
+        console.log('disconnect');
+      });
+
+      $(document).ready(function(){
+        $('#iot').text("All OK");
+        $('#iot').css('background', '#00AA00');
+        console.log('page loaded');
+      });
 
     </script>
+    Connection status: <div id="status"></div>
+    <p/>
     iot: <div id="iot"></div>
   </body>
 </html>
