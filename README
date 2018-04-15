@@ -1,3 +1,7 @@
 Dependencies
 
+Node
 For now the most important thing is you need to install node.js and npm (node package manager).  Start here:  https://nodejs.org/en/download/
+
+curl
+I don't think Windows has the curl utility for sending an http request.  This seems to be the solution:  https://curl.haxx.se/download.html
