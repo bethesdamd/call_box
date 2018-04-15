@@ -8,7 +8,13 @@
   </head>
   <body>
     <script>
-      var socket = io.connect();
+      // var socket = io.connect();
+      socket = io.connect( '', {
+          reconnection: true,
+          reconnectionDelay: 1000,
+          reconnectionDelayMax : 5000,
+          reconnectionAttempts: 99999
+        } );
 
       socket.on('got_iot_message', function(data){
         console.log(data);
@@ -21,5 +27,3 @@
     iot: <div id="iot"></div>
   </body>
 </html>
-
-
