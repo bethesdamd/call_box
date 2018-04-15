@@ -16,7 +16,8 @@ To run:
    Do the following to simulate an incoming message:
 */
 
-// TODO: implement this part:
+
+// TODO: implement the code that extracts the 'foo' message from a url of this format:
 // curl localhost:8001/r?data=foo
 
 const request = require('request');
