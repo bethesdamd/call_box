@@ -1,9 +1,23 @@
+/*
+To run:
 
-// this represents the server listening for the incoming HTTP IoT data from sensor,
-// then it sends that message to server2.js over http
-// From https://stackoverflow.com/a/35427353/5794417
-// do the following to simulate an incoming message:
-// curl localhost:8001/r
+- Open three terminals
+- In first terminal: node server1.js
+- In second terminal: node server2.js
+- In browser: http://localhost:3000/my_new.html
+- In third terminal: curl localhost:8001/r?message1
+- You should see a change in the browser indicating the message was received
+*/
+
+/* This is Node.js Server 1
+   (Server1 and Server2 are Node.js apps running on the same physical server)
+   This represents the server listening for the incoming HTTP IoT data from sensor,
+   then it sends that message to server2.js using HTTP
+   Do the following to simulate an incoming message:
+*/
+
+// TODO: implement this part:
+// curl localhost:8001/r?data=foo
 
 const request = require('request');
 
@@ -12,7 +26,7 @@ var url = require('url');
 var fs = require('fs');
 var server;
 
-// send data to the other server
+// Send data to Node Server 2
 var sendit = function(s) {
   request('http://localhost:3000/rh' + '?' + s, { }, (err, res, body) => {
   if (err) { return console.log(err); }
@@ -25,15 +39,15 @@ server = http.createServer(function(req, res){
 
     switch (path){
 
-        // this is just a hello route for testing
+        // This is just a hello route for testing
         case '/':
             res.writeHead(200, {'Content-Type': 'text/html'});
             res.write('<h1>Hello!</h1>');
             res.end();
             break;
 
-        // this path accepts incoming http get with IoT message
-        // e.g. curl localhost:8001/r
+        // This route accepts an incoming http get with IoT message
+        // e.g. curl localhost:8001/r?data=foo
         case '/r':
           console.log('url: ' + req.url);
           sendit(req.url);
@@ -52,4 +66,4 @@ send404 = function(res){
 };
 
 server.listen(8001);
-console.log("web server listening on 8001 for incoming http get with data")
+console.log("Web server listening on 8001 for incoming http get with data")
