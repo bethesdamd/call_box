@@ -13,7 +13,11 @@
   </head>
   <body>
     <script>
-      // old way:  var socket = io.connect();
+
+      dateString = function() {
+        return (new Date(Date.now())).toString();
+      }
+
       socket = io.connect( '', {
           reconnection: true,
           reconnectionDelay: 5000,
@@ -22,28 +26,24 @@
         } );
 
       socket.on('got_iot_message', function(data){
-        var date = new Date(Date.now());
-        fd = date.toString();
-        console.log(fd + ": " + data);
+        console.log(dateString() + ": " + data);
         $('#iot').text(data);
         $('#iot').css('background', '#CC55AA');
       });
 
       socket.on('connect', function(){
-        console.log('connect status:', socket.connected);
-        $('#status').text(socket.connected);
+        console.log(dateString() + ' connect status:', socket.connected);
+        $('#status').text(socket.connected + ' at ' + dateString());
       });
 
       socket.on('disconnect', function(){
-        console.log('disconnect status:', socket.connected);
-        $('#status').text('disconnected');
+        console.log(dateString() + ' disconnect event, device is now ', socket.connected == false ? 'disconnected' : 'connected');
+        $('#status').text('disconnected at ' + dateString());
       });
 
       $(document).ready(function(){
-
         $('#iot').text("All OK");
         $('#iot').css('background', '#00AA00');
-        console.log('page loaded');
       });
 
     </script>
