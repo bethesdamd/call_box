@@ -1,0 +1,26 @@
+{
+  "name": "call_box",
+  "version": "1.0.0",
+  "description": "Server and client side code related to the Call Box project.",
+  "main": "server1.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bethesdamd/call_box.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bethesdamd/call_box/issues"
+  },
+  "homepage": "https://github.com/bethesdamd/call_box#readme",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "http": "0.0.0",
+    "request": "^2.85.0",
+    "url": "^0.11.0"
+  }
+}

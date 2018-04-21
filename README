@@ -7,3 +7,17 @@ For now the most important thing is you need to install node.js and npm (node pa
 
 curl
 Install curl for Windows:  https://curl.haxx.se/download.html
+
+- Connect to AWS server: ssh ec2-user@52.91.247.184
+- cd into ~/call_box directory which has the Node.js servers code
+- run: node server1.js  --  server1.js is the server that listens for an HTTP message from the Particle vis a vis the Particle cloud publish() command.
+It is presently configured to print a message to stdout when it receives the incoming HTTP message, this facilitates trouble-
+shooting.  You do not have to have server2.js running for hardware testing unless you want to view the web page.
+- run: node server2.js  --  server2.js is the server that will serve the web page for the UI that receives the warning message.  Also, this server
+receives the message from server1 that it received.  This may seem odd or inefficient to have two servers, but it was the only
+way I could figure out how to get this all to work.  Also it has the benefit of separating the server that receives the call box
+message from the server that sits on the public internet, so e.g. a DOS attack on the web server would not affect the server
+receiving the call box message.
+- open a browser to http://52.91.247.184:8001/ (I think) to see the UI
+
+- 

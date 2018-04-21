@@ -42,6 +42,7 @@ server = http.createServer(function(req, res){
 
         // This is just a hello route for testing
         case '/':
+		console.log('i recevied an incoming GET');
             res.writeHead(200, {'Content-Type': 'text/html'});
             res.write('<h1>Hello!</h1>');
             res.end();
